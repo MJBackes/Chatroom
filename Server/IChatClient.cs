@@ -8,6 +8,6 @@ namespace Server
 {
     public interface IChatClient
     {
-        Task<string> Recieve();
+        Task<IChatLog> Recieve();
     }
 }

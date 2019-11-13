@@ -10,6 +10,6 @@ namespace Server
     public class MessageModel : IChatLog
     {
         public string Message { get; set; }
-        public List<string> UserList { get; set; }
+        public string UserList { get; set; }
     }
 }

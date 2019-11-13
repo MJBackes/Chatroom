@@ -61,7 +61,7 @@ namespace Server
             TcpClient clientSocket = await Task.Run(() => server.AcceptTcpClient());
             NetworkStream stream = clientSocket.GetStream();
             Client client = new Client(stream, clientSocket);
-            client.UserName = client.Recieve().Result;
+            client.UserName = ((MessageModel)(client.Recieve().Result)).Message;
             Join(client);
         }
         private void Respond(IClient client,IChatLog body)

@@ -20,20 +20,17 @@ namespace Server
             client = Client;
             UserId = Guid.NewGuid();
         }
-        public void Send(IChatLog Message)
+        public void Send(IChatLog log)
         {
-            
+            ByteMessage message = Serializer.Serialize(log);
+            stream.Write(message.Message,0,message.Message.Length);
         }
-        public async Task<string> Recieve()
+        public async Task<IChatLog> Recieve()
         {
-            //byte[] recievedMessage = new byte[256];
-            //stream.ReadAsync(recievedMessage, 0, recievedMessage.Length);
-            StreamReader streamReader = new StreamReader(stream);
-            string inboundMessage = await Task.Run(() => streamReader.ReadToEnd());
-            //string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
-            //Console.WriteLine(recievedMessageString);
-            //return recievedMessageString;
-            return inboundMessage;
+            ByteMessage recievedMessage = new ByteMessage();
+            await stream.ReadAsync(recievedMessage.Message, 0, recievedMessage.Message.Length);
+            MessageModel recievedModel = (MessageModel)Serializer.Deserialize(recievedMessage);
+            return recievedModel;
         }
     }
 }

@@ -23,24 +23,19 @@ namespace Client
             Port = port;
             clientSocket = new TcpClient();
         }
-        public void Send()
-        {
-            string messageString = UI.GetInput();
-            byte[] message = Encoding.ASCII.GetBytes(messageString);
-            stream.Write(message, 0, message.Count());
-        }
         public void Send(string input)
         {
-            string messageString = input;
-            byte[] message = Encoding.ASCII.GetBytes(messageString);
-            stream.Write(message, 0, message.Count());
+            ByteMessage message = new ByteMessage {
+                Message = Encoding.ASCII.GetBytes(input)
+            };
+            stream.Write(message.Message, 0, message.Message.Length);
         }
-        public async Task Recieve()
+        public async Task<IChatLog> Recieve()
         {
-            //byte[] recievedMessage = new byte[256];
-            //stream.Read(recievedMessage, 0, recievedMessage.Length);
-            StreamReader streamReader = new StreamReader(stream);
-            string inboundMessage = await Task.Run(() => streamReader.ReadToEnd());
+            ByteMessage recievedMessage = new ByteMessage();
+            await stream.ReadAsync(recievedMessage.Message, 0, recievedMessage.Message.Length);
+            MessageModel recievedModel = (MessageModel)Serializer.Deserialize(recievedMessage);
+            return recievedModel;
         }
         public async Task AttemptConnection()
         {
