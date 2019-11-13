@@ -10,7 +10,7 @@ namespace Server
     {
         void Join(IClient client);
         void Leave(IClient client);
-        void Notify();
+        void Notify(string message);
 
     }
 }

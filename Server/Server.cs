@@ -4,36 +4,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Server
 {
-    class Server
+    public class Server : IServer
     {
-        public static Client client;
+        private static Dictionary<Guid,IClient> clients;
         TcpListener server;
         public Server()
         {
+            clients = new Dictionary<Guid, IClient>();
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
         }
-        public void Run()
+        public void Join(IClient client)
         {
-            AcceptClient();
-            string message = client.Recieve();
-            Respond(message);
+            Notify("User has joined.");
+            clients.Add(((Client)client).UserId,client);
         }
-        private void AcceptClient()
+        public void Leave(IClient client)
         {
-            TcpClient clientSocket = default(TcpClient);
-            clientSocket = server.AcceptTcpClient();
-            Console.WriteLine("Connected");
+            Notify("User has left");
+            clients.Remove(((Client)client).UserId);
+        }
+        public void Notify(string message)
+        {
+            foreach(KeyValuePair<Guid,IClient> pair in clients)
+            {
+                Respond(pair.Value, message);
+            }
+        }
+        public async Task Run()
+        {
+            while (true)
+            {
+                foreach(KeyValuePair<Guid,IClient> pair in clients)
+                {
+                    string message = pair.Value.Recieve().Result;
+                    Notify(message);
+                }
+                await AcceptClient();
+            }
+        }
+        private async Task AcceptClient()
+        {
+            TcpClient clientSocket = await Task.Run(() => server.AcceptTcpClient());
             NetworkStream stream = clientSocket.GetStream();
-            client = new Client(stream, clientSocket);
+            Client client = new Client(stream, clientSocket);
+            Join(client);
         }
-        private void Respond(string body)
+        private void Respond(IChatClient client,string body)
         {
              client.Send(body);
         }

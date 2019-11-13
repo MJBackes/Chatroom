@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public interface IClient : IChatClient
+    public interface IChatClient
     {
-        void Update(IServer server);
+        void Send(string message);
+        Task<string> Recieve();
     }
 }
