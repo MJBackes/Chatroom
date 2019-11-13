@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server
+namespace Client
 {
-    public interface IClient : IChatClient
+    public class ByteMessage
     {
-        void Send(IChatLog Message);
+        public byte[] Message { get; set; }
     }
 }

@@ -29,12 +29,14 @@ namespace Chatroom
             DataContext = viewModel;
         }
 
-        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             if (viewModel.UserName.Length != 0)
             {
                 client = new Client.Client("127.0.0.1", 9999, viewModel.UserName);
-                client.AttemptConnection();
+                await client.AttemptConnection();
+                viewModel.ConnectButtonVisibility = "Hidden";
+                viewModel.DisconnectButtonVisibility = "Visible";
             }
             else
             {

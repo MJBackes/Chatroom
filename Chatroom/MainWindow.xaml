@@ -43,7 +43,7 @@
                      HorizontalAlignment="Stretch" 
                      VerticalAlignment="Stretch" 
                      Margin="5">
-            
+
             </ListBox>
         </ScrollViewer>
         <ScrollViewer Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" >
@@ -62,7 +62,7 @@
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
                 Margin="10" 
-                Visibility="Visible" 
+                Visibility="{Binding ConnectButtonVisibility, UpdateSourceTrigger=PropertyChanged}" 
                 Click="ConnectButton_Click"
                 />
         <Button Name="DisconnectButton" 
@@ -71,7 +71,7 @@
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
                 Margin="10" 
-                Visibility="Hidden"
+                Visibility="{Binding DisconnectButtonVisibility,UpdateSourceTrigger=PropertyChanged}"
                 />
         <TextBox Name ="UserNameInput" 
                  Grid.Column="1" Grid.Row="2" 
@@ -81,7 +81,7 @@
                  Text="{Binding UserName}" 
                  VerticalAlignment="Center" 
                  Margin="5" 
-                 Visibility="Visible"
+                 Visibility="{Binding UserNameInputVisibility,UpdateSourceTrigger=PropertyChanged}"
                  />
         <TextBlock Name="UserNameDisplay" 
                    Grid.Column="1" Grid.Row="2" 

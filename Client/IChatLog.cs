@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server
+namespace Client
 {
-    public interface IClient : IChatClient
+    public interface IChatLog
     {
-        void Send(IChatLog Message);
     }
 }

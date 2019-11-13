@@ -13,18 +13,16 @@ namespace Server
         NetworkStream stream;
         TcpClient client;
         public Guid UserId;
-
+        public string UserName;
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
-            
+            UserId = Guid.NewGuid();
         }
-        public void Send(string Message)
+        public void Send(IChatLog Message)
         {
-            byte[] message = Encoding.ASCII.GetBytes(Message);
-            stream.WriteAsync(message, 0, message.Count());
-
+            
         }
         public async Task<string> Recieve()
         {
@@ -36,10 +34,6 @@ namespace Server
             //Console.WriteLine(recievedMessageString);
             //return recievedMessageString;
             return inboundMessage;
-        }
-        public void Update(IServer server)
-        {
-
         }
     }
 }

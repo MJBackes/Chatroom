@@ -13,7 +13,6 @@ namespace Client
     {
         TcpClient clientSocket;
         NetworkStream stream;
-        public bool isFinished;
         public string UserName;
         private string IP;
         private int Port;
@@ -29,20 +28,12 @@ namespace Client
             string messageString = UI.GetInput();
             byte[] message = Encoding.ASCII.GetBytes(messageString);
             stream.Write(message, 0, message.Count());
-            if (message.Length == 0)
-            {
-                isFinished = true;
-            }
         }
         public void Send(string input)
         {
             string messageString = input;
             byte[] message = Encoding.ASCII.GetBytes(messageString);
             stream.Write(message, 0, message.Count());
-            if (message.Length == 0)
-            {
-                isFinished = true;
-            }
         }
         public async Task Recieve()
         {
@@ -51,15 +42,11 @@ namespace Client
             StreamReader streamReader = new StreamReader(stream);
             string inboundMessage = await Task.Run(() => streamReader.ReadToEnd());
         }
-        public void AttemptConnection(string ip,int port)
+        public async Task AttemptConnection()
         {
-            clientSocket.Connect(IPAddress.Parse(ip), port);
+            await Task.Run(() => clientSocket.Connect(IPAddress.Parse(IP), Port));
             stream = clientSocket.GetStream();
-        }
-        public void AttemptConnection()
-        {
-            clientSocket.Connect(IPAddress.Parse(IP), Port);
-            stream = clientSocket.GetStream();
+            Send(UserName);
         }
     }
 }

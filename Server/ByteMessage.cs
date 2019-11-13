@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public interface IServer
+    public class ByteMessage
     {
-        void Join(IClient client);
-        void Leave(IClient client);
-        void Notify(IChatLog message);
-
+        public byte[] Message { get; set; }
     }
 }

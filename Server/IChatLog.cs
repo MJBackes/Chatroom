@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public interface IServer
+    public interface IChatLog
     {
-        void Join(IClient client);
-        void Leave(IClient client);
-        void Notify(IChatLog message);
-
     }
 }

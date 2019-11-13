@@ -8,7 +8,6 @@ namespace Server
 {
     public interface IChatClient
     {
-        void Send(string message);
         Task<string> Recieve();
     }
 }
