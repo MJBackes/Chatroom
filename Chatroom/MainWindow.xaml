@@ -54,7 +54,12 @@
                      Text="{Binding InputTextBoxText, UpdateSourceTrigger=PropertyChanged}" 
                      VerticalAlignment="Stretch" 
                      Margin="5"
-                     />
+                     >
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter"
+                                Command="{}"/>
+                </TextBox.InputBindings>
+            </TextBox>
         </ScrollViewer>
         <Button Name="ConnectButton" 
                 Grid.Column="1" Grid.Row="3" 

@@ -7,27 +7,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Server;
+using MessageUtilities;
 namespace Client
 {
     public class Client
     {
         TcpClient clientSocket;
         NetworkStream stream;
-        public string UserName;
+        ViewModel viewModel;
         private string IP;
         private int Port;
-        public Client(string IP, int port,string userName)
+        public Client(string IP, int port,string userName,ViewModel view)
         {
-            UserName = userName;
+            viewModel = view;
+            viewModel.UserName = userName;
             this.IP = IP;
             Port = port;
             clientSocket = new TcpClient();
         }
-        public void Send(string input)
+        public void Send(MessageModel input)
         {
-            ByteMessage message = new ByteMessage {
-                Message = Encoding.ASCII.GetBytes(input)
-            };
+            ByteMessage message = Serializer.Serialize(input);
             stream.Write(message.Message, 0, message.Message.Length);
         }
         public async Task<IChatLog> Recieve()
@@ -39,9 +39,16 @@ namespace Client
         }
         public async Task AttemptConnection()
         {
-            await Task.Run(() => clientSocket.Connect(IPAddress.Parse(IP), Port));
-            stream = clientSocket.GetStream();
-            Send(UserName);
+            try
+            {
+                await Task.Run(() => clientSocket.Connect(IPAddress.Parse(IP), Port));
+                stream = clientSocket.GetStream();
+                Send(new MessageModel { Message = viewModel.UserName });
+            }
+            catch(System.Net.Sockets.SocketException e)
+            {
+                return;
+            }
         }
     }
 }

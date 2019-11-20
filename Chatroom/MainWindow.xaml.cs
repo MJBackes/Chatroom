@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Client;
+using MessageUtilities;
 namespace Chatroom
 {
     /// <summary>
@@ -33,10 +34,10 @@ namespace Chatroom
         {
             if (viewModel.UserName.Length != 0)
             {
-                client = new Client.Client("127.0.0.1", 9999, viewModel.UserName);
-                await client.AttemptConnection();
                 viewModel.ConnectButtonVisibility = "Hidden";
                 viewModel.DisconnectButtonVisibility = "Visible";
+                client = new Client.Client("127.0.0.1", 9999, viewModel.UserName,viewModel);
+                await client.AttemptConnection();
             }
             else
             {

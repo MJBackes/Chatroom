@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-
+using MessageUtilities;
 namespace Server
 {
     public class Client : IClient
@@ -28,7 +28,7 @@ namespace Server
         public async Task<IChatLog> Recieve()
         {
             ByteMessage recievedMessage = new ByteMessage();
-            await stream.ReadAsync(recievedMessage.Message, 0, recievedMessage.Message.Length);
+            var x = await stream.ReadAsync(recievedMessage.Message, 0, recievedMessage.Message.Length);
             MessageModel recievedModel = (MessageModel)Serializer.Deserialize(recievedMessage);
             return recievedModel;
         }
