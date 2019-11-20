@@ -34,7 +34,7 @@ namespace Server
                 Message = $"{((Client)client).UserName} has joined."
             };
             message.UserList = UserList;
-            Console.Write(((Client)client).UserName);
+            Console.WriteLine(((Client)client).UserName);
             Notify(message);
         }
         public void Leave(IClient client)

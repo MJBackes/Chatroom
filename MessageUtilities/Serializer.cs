@@ -21,12 +21,9 @@ namespace MessageUtilities
         {
             using (MemoryStream memoryStream = new MemoryStream(message.Message))
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                MemoryStream ms = memoryStream;
                 try
                 {
-                    object output = bf.Deserialize(ms);
-                    return output;
+                    return (new BinaryFormatter()).Deserialize(memoryStream);
                 }
                 catch (System.Runtime.Serialization.SerializationException e)
                 {

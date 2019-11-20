@@ -21,13 +21,14 @@ namespace Chatroom
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ViewModel viewModel;
+        internal ViewModel viewModel;
         private Client.Client client;
         public MainWindow()
         {
-            viewModel = new ViewModel();
             InitializeComponent();
-            DataContext = viewModel;
+            viewModel = new ViewModel();
+            this.DataContext = viewModel;
+            viewModel.DisconnectButtonVisibility = "Hidden";
         }
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -36,6 +37,7 @@ namespace Chatroom
             {
                 viewModel.ConnectButtonVisibility = "Hidden";
                 viewModel.DisconnectButtonVisibility = "Visible";
+                viewModel.UserNameInputVisibility = "Hidden";
                 client = new Client.Client("127.0.0.1", 9999, viewModel.UserName,viewModel);
                 await client.AttemptConnection();
             }

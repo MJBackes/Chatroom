@@ -44,10 +44,21 @@ namespace Client
                 await Task.Run(() => clientSocket.Connect(IPAddress.Parse(IP), Port));
                 stream = clientSocket.GetStream();
                 Send(new MessageModel { Message = viewModel.UserName });
+                ListenForResponses();
             }
             catch(System.Net.Sockets.SocketException e)
             {
                 return;
+            }
+        }
+        private async Task ListenForResponses()
+        {
+            while (true)
+            {
+                MessageModel message = (MessageModel)await Task.Run(() => Recieve().Result);
+                viewModel.OutputTextBoxText = message.Message;
+                if(message.UserList != null)
+                viewModel.UsersList = message.UserList;
             }
         }
     }

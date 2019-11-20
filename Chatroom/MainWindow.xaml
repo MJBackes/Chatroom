@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Chatroom"
         mc:Ignorable="d"
         Title="Chatroom" Height="450" Width="720"
-        Cursor="ArrowCD">
+        >
     <Grid Background="#303030" Cursor="Arrow">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="6*"/>
@@ -23,7 +22,7 @@
                      Background="#606060" 
                      HorizontalAlignment="Stretch"
                      TextWrapping="Wrap" 
-                     Text="{Binding OutputTextBoxText, UpdateSourceTrigger=PropertyChanged}" 
+                     Text="{Binding viewModel.OutputTextBoxText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      VerticalAlignment="Stretch" 
                      Margin="5" 
                      IsReadOnly="True" 
@@ -51,7 +50,7 @@
                      Background="#606060" 
                      HorizontalAlignment="Stretch" 
                      TextWrapping="Wrap" 
-                     Text="{Binding InputTextBoxText, UpdateSourceTrigger=PropertyChanged}" 
+                     Text="{Binding viewModel.InputTextBoxText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                      VerticalAlignment="Stretch" 
                      Margin="5"
                      >
@@ -67,7 +66,7 @@
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
                 Margin="10" 
-                Visibility="{Binding ConnectButtonVisibility, UpdateSourceTrigger=PropertyChanged}" 
+                Visibility="{Binding viewModel.ConnectButtonVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 Click="ConnectButton_Click"
                 />
         <Button Name="DisconnectButton" 
@@ -76,7 +75,7 @@
                 HorizontalAlignment="Stretch" 
                 VerticalAlignment="Stretch" 
                 Margin="10" 
-                Visibility="{Binding DisconnectButtonVisibility,UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{Binding viewModel.DisconnectButtonVisibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                 />
         <TextBox Name ="UserNameInput" 
                  Grid.Column="1" Grid.Row="2" 
@@ -86,7 +85,7 @@
                  Text="{Binding UserName}" 
                  VerticalAlignment="Center" 
                  Margin="5" 
-                 Visibility="{Binding UserNameInputVisibility,UpdateSourceTrigger=PropertyChanged}"
+                 Visibility="{Binding viewModel.UserNameInputVisibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                  />
         <TextBlock Name="UserNameDisplay" 
                    Grid.Column="1" Grid.Row="2" 
